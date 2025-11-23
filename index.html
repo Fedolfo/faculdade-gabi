@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recusa de Tratamento e Saúde Única</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Merriweather:wght@300;400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* 1. CONFIGURAÇÃO GERAL */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f0fdf4;
+      /* Fundo geral levemente esverdeado (natureza) */
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 1fr;
+      min-height: 100vh;
+      padding: 20px 0;
+      place-items: center;
+      margin: 0;
+    }
+
+    .slide-container {
+      align-items: center;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      font-family: "DM Sans", sans-serif;
+      height: 720px;
+      justify-content: center;
+      overflow: hidden;
+      padding: 40px 60px;
+      position: relative;
+      width: 1280px;
+      background-color: #ffffff;
+    }
+
+    /* Background Abstrato One Health (Células/Natureza) */
+    .slide-container:not(.title-slide)::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(20, 83, 45, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+      /* Verde escuro translúcido */
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .slide-container>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 2. TIPOGRAFIA */
+    h1,
+    h2,
+    h3 {
+      font-family: "Merriweather", serif;
+      margin: 0;
+    }
+
+    p,
+    li,
+    span,
+    a {
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    /* Linha maior para melhor leitura */
+
+    .slide-title {
+      font-size: 40px;
+      color: #115e59;
+      /* Verde-Petróleo (Teal) sério */
+      font-weight: 700;
+      margin-bottom: 25px;
+      width: 100%;
+      border-bottom: 3px solid #ccfbf1;
+      padding-bottom: 10px;
+    }
+
+    /* 3. RODAPÉ DE REFERÊNCIA */
+    .reference-footer {
+      position: absolute;
+      bottom: 15px;
+      left: 60px;
+      right: 60px;
+      font-size: 14px;
+      /* Aumentada */
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 5px;
+      font-style: italic;
+      background-color: transparent;
+      z-index: 10;
+    }
+
+    .reference-footer strong {
+      font-weight: 700;
+      color: #115e59;
+      margin-right: 5px;
+    }
+
+    /* 4. LEGENDA DA IMAGEM */
+    .image-citation {
+      font-size: 12px;
+      /* Aumentada */
+      color: #64748b;
+      margin-top: 8px;
+      text-align: left;
+      line-height: 1.2;
+      background-color: #f1f5f9;
+      padding: 8px;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    /* 5. LAYOUTS */
+
+    /* CAPA ONE HEALTH SÉRIA */
+    .title-slide {
+      /* Gradiente Verde Petróleo + Imagem Conceitual */
+      background-image: linear-gradient(rgba(17, 94, 89, 0.9), rgba(15, 23, 42, 0.9)), url('http://googleusercontent.com/image_collection/image_retrieval/17507727119088203592');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      text-align: center;
+      border: none;
+    }
+
+    .title-slide h1 {
+      font-size: 64px;
+      color: #f0fdf4;
+      margin-bottom: 15px;
+      text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      letter-spacing: -1px;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 700;
+    }
+
+    /* Fonte alterada para DM Sans */
+    .title-slide .subtitle {
+      font-size: 24px;
+      color: #99f6e4;
+      margin-bottom: 50px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .title-slide .authors {
+      font-size: 18px;
+      /* Aumentada */
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 60px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px 50px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .title-slide .authors span {
+      color: #e2e8f0;
+      font-weight: 400;
+    }
+
+    /* Conteúdo */
+    .content-area {
+      width: 100%;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      height: 100%;
+    }
+
+    .text-column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .text-column li {
+      margin-bottom: 18px;
+      font-size: 20px;
+      padding-left: 30px;
+      position: relative;
+    }
+
+    /* Aumentada */
+    .text-column li::before {
+      content: '\f054';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: #115e59;
+      font-size: 16px;
+      top: 6px;
+    }
+
+    .image-wrapper {
+      width: 100%;
+      height: 380px;
+      /* Aumentada */
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Tiles */
+    .tiled-content {
+      display: flex;
+      gap: 25px;
+      width: 100%;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .tile {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .tile .icon {
+      font-size: 40px;
+      /* Aumentada */
+      color: #115e59;
+      margin-bottom: 20px;
+      background: #ccfbf1;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px auto;
+    }
+
+    .tile h3 {
+      font-size: 22px;
+      /* Aumentada */
+      margin-bottom: 12px;
+      color: #115e59;
+      font-weight: 700;
+    }
+
+    .tile p {
+      font-size: 18px;
+      /* Aumentada */
+    }
+
+    /* Podcast Player Box */
+    .audio-card {
+      background: #f0fdf4;
+      border: 1px solid #115e59;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(17, 94, 89, 0.1);
+    }
+
+    .qa-layout {
+      text-align: center;
+      background-color: #115e59;
+      color: #fff;
+    }
+
+    /* 6. BOTÕES DE NAVEGAÇÃO */
+    .slide-navigation {
+      position: absolute;
+      bottom: 20px;
+      right: 60px;
+      display: flex;
+      gap: 15px;
+      z-index: 100;
+    }
+
+    .nav-button {
+      background-color: #115e59;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "DM Sans", sans-serif;
+      box-shadow: 0 4px 12px rgba(17, 94, 89, 0.3);
+    }
+
+    .nav-button:hover:not(:disabled) {
+      background-color: #0f766e;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(17, 94, 89, 0.4);
+    }
+
+    .nav-button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .nav-button:disabled {
+      background-color: #94a3b8;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .nav-button i {
+      font-size: 14px;
+    }
+
+    /* Esconder slides por padrão (será controlado via JavaScript) */
+    .slide-container:not(:first-of-type) {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Slide 1: Capa (Visual One Health Sério) -->
+  <div class="slide-container title-slide" id="slide1">
+    <!-- Título com fonte DM Sans (mais moderna e legível) -->
+    <h1>Recusa de Tratamento e<br>Saúde Única</h1>
+    <p class="subtitle">CENTRO UNIVERSITÁRIO UNA - 2025</p>
+
+    <div class="authors">
+      <span>Ana Caroline Barbosa Freitas</span>
+      <span>Ana Elisa Simões Alves</span>
+      <span>Ana Júlia Rodrigues Barbosa</span>
+      <span>Gabrielle Das Graças Teixeira</span>
+      <span>Geovanna Victoria Campos</span>
+      <span>Hélio Rodrigo Félix Vieira</span>
+      <span>Luis Fernando Heitor De Souza</span>
+      <span>Miguel Braz Santos</span>
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn1" disabled>
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn1">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 2: Sumário -->
+  <div class="slide-container" id="slide2">
+    <h2 class="slide-title">Sumário</h2>
+    <div class="content-area" style="align-items: center;">
+      <div class="text-column" style="width: 80%;">
+        <ul style="font-size: 24px;">
+          <li><strong>1.</strong> Introdução e Metodologia</li>
+          <li><strong>2.</strong> Aspectos Bioéticos da Recusa</li>
+          <li><strong>3.</strong> Perspectiva da Saúde Única</li>
+          <li><strong>4.</strong> Discussão: Riscos e Poluição</li>
+          <li><strong>5.</strong> Contribuição à Comunidade (Podcast)</li>
+          <li><strong>6.</strong> Conclusão e Referências</li>
+        </ul>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Página:</strong> 2
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn2">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn2">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 3: Introdução -->
+  <div class="slide-container" id="slide3">
+    <h2 class="slide-title">1. Introdução: Direito vs. Dever</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div class="text-column">
+          <p style="font-size: 22px; color: #115e59; font-weight: bold;">O Conflito Fundamental</p>
+          <ul>
+            <li><strong>Autonomia:</strong> Direito do paciente de recusar (Resolução CFM nº 2.217/2018).</li>
+            <li><strong>Dever Médico:</strong> Respeitar, desde que haja informação completa.</li>
+            <li><strong>Limite:</strong> A autonomia não prevalece sobre o risco à saúde pública (coletividade).</li>
+          </ul>
+        </div>
+        <div>
+          <div class="image-wrapper">
+            <img src="https://placehold.co/600x400/115e59/FFFFFF?text=Medico+e+Paciente" alt="Consulta médica">
+          </div>
+          <div class="image-citation">
+            Fonte: Google Images. Relação médico-paciente.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> CONSELHO FEDERAL DE MEDICINA. Resolução CFM nº 2.217, 2018.
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn3">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn3">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 4: Metodologia -->
+  <div class="slide-container" id="slide4">
+    <h2 class="slide-title">2. Metodologia</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div>
+          <div class="image-wrapper">
+            <img src="https://placehold.co/600x400/e2e8f0/115e59?text=Pesquisa+Bibliografica" alt="Pesquisa">
+          </div>
+          <div class="image-citation">
+            Fonte: Google Images. Metodologia científica.
+          </div>
+        </div>
+        <div class="text-column">
+          <ul>
+            <li><strong>Tipo:</strong> Revisão de literatura sistematizada.</li>
+            <li><strong>Período:</strong> Setembro a Novembro de 2025.</li>
+            <li><strong>Fontes:</strong> PubMed, SciELO, Google Scholar.</li>
+            <li><strong>Foco:</strong> Publicações recentes (2022-2025) sobre Bioética e One Health.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> Elaboração própria (2025).
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn4">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn4">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 5: Bioética -->
+  <div class="slide-container" id="slide5">
+    <h2 class="slide-title">3.1 Bioética: Dilemas Críticos</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div class="text-column">
+          <h3>Gestante com Sífilis</h3>
+          <ul>
+            <li><strong>Conflito:</strong> Autonomia Materna vs. Vida do Feto.</li>
+            <li>O feto é sujeito de direitos; a recusa pode ser <strong>abuso de direito</strong>.</li>
+            <li>Intervenção justificada em risco iminente de morte.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="image-wrapper">
+            <img src="https://placehold.co/600x400/f0fdf4/000000?text=Gestacao+e+Etica" alt="Gestante">
+          </div>
+          <div class="image-citation">
+            Fonte: Google Images. Bioética na gestação.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> MENEZES, G. R. et al. Revista Bioética, 2023.
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn5">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn5">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 6: Capacidade de Decisão -->
+  <div class="slide-container" id="slide6">
+    <h2 class="slide-title">3.2 Tipos de Capacidade</h2>
+    <div class="content-area">
+      <div class="tiled-content">
+        <div class="tile">
+          <div class="icon"><i class="fa-solid fa-scale-balanced"></i></div>
+          <h3>Comparativa</h3>
+          <p>Análise racional de riscos e benefícios.</p>
+        </div>
+        <div class="tile">
+          <div class="icon"><i class="fa-solid fa-hand-holding-medical"></i></div>
+          <h3>Baseada em Ônus</h3>
+          <p>Recusa por considerar o tratamento um fardo excessivo.</p>
+        </div>
+        <div class="tile">
+          <div class="icon"><i class="fa-solid fa-bullseye"></i></div>
+          <h3>Baseada em Objetivos</h3>
+          <p>Decisão alinhada aos valores e metas de vida do paciente.</p>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> NAVIN, M. C. et al. AJOB, 2022.
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn6">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn6">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 7: Saúde Humana (Carona Gratuita) -->
+  <div class="slide-container" id="slide7">
+    <h2 class="slide-title">4.1 Saúde Humana ("Carona Gratuita")</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div>
+          <div class="image-wrapper">
+            <img src="https://placehold.co/600x400/115e59/FFFFFF?text=Vacina+Coletiva" alt="Vacinação">
+          </div>
+          <div class="image-citation">
+            Fonte: Google Images. Imunidade de rebanho.
+          </div>
+        </div>
+        <div class="text-column">
+          <ul>
+            <li><strong>Recusa Vacinal:</strong> Quebra a imunidade de grupo.</li>
+            <li><strong>"Carona Gratuita":</strong> Usufruir da proteção coletiva sem a devida contribuição individual
+              (vacinação).</li>
+            <li><strong>Consequência:</strong> Ressurgimento de doenças erradicadas e sobrecarga do SUS.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> CLARKE, S. et al. Bioethics, 2017.
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn7">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn7">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 8: Saúde Animal -->
+  <div class="slide-container" id="slide8">
+    <h2 class="slide-title">4.2 Saúde Animal (Zoonoses)</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div class="text-column">
+          <p style="font-weight:bold; color:#115e59; font-size: 22px;">Tríade: Veterinário - Animal - Tutor</p>
+          <ul>
+            <li><strong>Leishmaniose:</strong> Recusa de coleiras/eutanásia mantém o ciclo da doença e expõe humanos.
+            </li>
+            <li><strong>Dilema Veterinário:</strong> Respeitar o tutor ou proteger a saúde pública?</li>
+            <li><strong>Maus-tratos:</strong> Negligência é crime e infração ética (CFMV 1.236/2018).</li>
+          </ul>
+        </div>
+        <div>
+          <div class="image-wrapper">
+            <img src="https://placehold.co/600x400/e2e8f0/000000?text=Leishmaniose+e+Prevencao" alt="Cão Veterinário">
+          </div>
+          <div class="image-citation">
+            Fonte: Google Images. Prevenção de zoonoses.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> SCHETTINI, A. P. et al. PLOS ONE, 2016.
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn8">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn8">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 9: Saúde Ambiental (RAM e CO2) -->
+  <div class="slide-container" id="slide9">
+    <h2 class="slide-title">4.3 Saúde Ambiental (RAM e CO₂)</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div>
+          <div class="image-wrapper">
+            <img src="https://placehold.co/600x400/1e293b/FFFFFF?text=Ciclo+da+Poluicao" alt="Poluição">
+          </div>
+          <div class="image-citation">
+            Fonte: Google Images. Impacto ambiental hospitalar.
+          </div>
+        </div>
+        <div class="text-column">
+          <ul>
+            <li><strong>Resistência Antimicrobiana (RAM):</strong> Abandono de tratamento cria superbactérias que
+              contaminam o solo/água.</li>
+            <li><strong>Ciclo da UTI:</strong> Complicações exigem UTI = <strong>7,1 kg de lixo/dia</strong> (vs 5,5 kg
+              comum) e alta emissão de **Carbono (CO₂)**.</li>
+            <li>Recusa gera doença mais grave > tratamento mais poluente.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> PRASAD, P. A. et al. IJLCA, 2022.
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn9">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn9">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 10: Discussão -->
+  <div class="slide-container" id="slide10">
+    <h2 class="slide-title">5. Discussão: Doenças de Risco</h2>
+    <div class="content-area">
+      <div class="tiled-content">
+        <div class="tile">
+          <div class="icon"><i class="fa-solid fa-lungs-virus"></i></div>
+          <h3>Tuberculose</h3>
+          <p>Recusa/Abandono cria resistência (RAM) e contágio em massa.</p>
+        </div>
+        <div class="tile">
+          <div class="icon"><i class="fa-solid fa-heart-pulse"></i></div>
+          <h3>Crônicas (HAS/Diabetes)</h3>
+          <p>Não adesão leva a AVC/IAM e necessidade de UTI (Alta pegada de CO₂).</p>
+        </div>
+        <div class="tile">
+          <div class="icon"><i class="fa-solid fa-bacteria"></i></div>
+          <h3>Sífilis</h3>
+          <p>Recusa gestacional resulta em internação neonatal intensiva.</p>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> Discussão baseada na revisão.
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn10">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn10">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 11: Comunicação -->
+  <div class="slide-container" id="slide11">
+    <h2 class="slide-title">6. Comunicação como Solução</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div class="text-column">
+          <p style="font-size: 24px; color: #115e59;">"Risco de não adesão é 19% maior com má comunicação."</p>
+          <ul>
+            <li>Recusa muitas vezes é <strong>medo</strong> ou <strong>desinformação</strong>.</li>
+            <li><strong>Estratégia:</strong> Escuta Ativa e Negociação (não imposição).</li>
+            <li>O profissional deve esgotar o diálogo antes de medidas judiciais.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="image-wrapper">
+            <img src="https://placehold.co/600x400/115e59/FFFFFF?text=Escuta+Ativa" alt="Comunicação">
+          </div>
+          <div class="image-citation">
+            Fonte: Google Images. Comunicação empática.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reference-footer">
+      <strong>Ref:</strong> HASKARD ZOLNIEREK, K. B. Med Care, 2009.
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn11">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn11">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 12: Podcast (Destinado a Profissionais de Saúde) -->
+  <div class="slide-container" id="slide12">
+    <h2 class="slide-title">Podcast</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div class="text-column">
+          <h3 style="color: #115e59; margin-bottom: 20px;">Recusa de Tratamento: Diálogos Éticos</h3>
+          <p style="font-size: 20px;">
+            Discussão aprofundada sobre os desafios éticos e práticos da recusa de tratamento,
+            com foco no impacto sistêmico da Saúde Única. Conteúdo destinado, **principalmente,
+            aos profissionais de saúde.**
+          </p>
+
+          <div
+            style="background: #fff; padding: 20px; border-radius: 10px; margin-top: 30px; border: 1px solid #ccfbf1;">
+            <p style="margin-bottom: 5px; font-weight: bold; color: #115e59; font-size: 18px;">Convidada Especial:</p>
+            <p style="font-size: 24px; border-bottom: 2px solid #e2e8f0; color: #555; padding-bottom: 5px;">
+              Dra. ____________________
+            </p>
+          </div>
+        </div>
+
+        <div class="audio-card">
+          <div class="icon" style="margin-bottom: 20px;"><i class="fa-solid fa-microphone-lines"
+              style="font-size: 50px; color: #115e59;"></i></div>
+          <p style="margin-bottom: 20px; font-weight: 500;">Ouça o Episódio:</p>
+
+          <!-- Placeholder do Audio Player -->
+          <audio controls style="width: 100%;">
+            <source src="" type="audio/mpeg">
+            Seu navegador não suporta o elemento de áudio.
+          </audio>
+
+          <p style="font-size: 14px; margin-top: 15px; color: #64748b;">(Insira o arquivo de áudio aqui)</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn12">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn12">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 13: Conclusão -->
+  <div class="slide-container" id="slide13">
+    <h2 class="slide-title">Conclusão</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <div class="text-column">
+          <ul>
+            <li>A recusa de tratamento é um fenômeno sistêmico.</li>
+            <li><strong>Equilíbrio:</strong> Autonomia Individual x Responsabilidade Coletiva.</li>
+            <li><strong>One Health:</strong> A gestão ética protege a saúde humana, animal e o meio ambiente.</li>
+            <li>O caminho é o diálogo e a educação, não a imposição.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="image-wrapper">
+            <img src="https://placehold.co/600x400/115e59/e2e8f0?text=Conclusao+One+Health" alt="Equilíbrio">
+          </div>
+          <div class="image-citation">
+            Fonte: Google Images. Sustentabilidade em saúde.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn13">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn13">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 14: Referências e QR Code -->
+  <div class="slide-container" id="slide14">
+    <h2 class="slide-title">Referências Bibliográficas</h2>
+    <div class="content-area">
+      <div class="two-column">
+        <!-- Lista de Referências -->
+        <div class="text-column"
+          style="font-size: 16px; overflow-y: auto; height: 500px; padding-right: 15px; border-right: 1px solid #e2e8f0;">
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 15px;"><strong>BRASIL.</strong> Constituição (1988). Constituição da República
+              Federativa do Brasil.</li>
+            <li style="margin-bottom: 15px;"><strong>CFM.</strong> Resolução nº 2.217/2018 (Código de Ética Médica).
+            </li>
+            <li style="margin-bottom: 15px;"><strong>MENEZES, G. R. et al.</strong> Sífilis congênita e recusa
+              terapêutica da gestante. <em>Revista Bioética</em>, 2023.</li>
+            <li style="margin-bottom: 15px;"><strong>SCHETTINI, A. P. et al.</strong> Canine-Based Strategies for
+              Prevention of Visceral Leishmaniasis. <em>PLOS ONE</em>, 2016.</li>
+            <li style="margin-bottom: 15px;"><strong>PRASAD, P. A. et al.</strong> Environmental footprint of regular
+              and intensive inpatient care. <em>IJLCA</em>, 2022.</li>
+            <li style="margin-bottom: 15px;"><strong>CLARKE, S. et al.</strong> Conscientious Objection to Vaccination.
+              <em>Bioethics</em>, 2017.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Box do QR Code -->
+        <div
+          style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+          <div
+            style="background: #fff; padding: 20px; border: 2px solid #115e59; border-radius: 15px; margin-bottom: 20px;">
+            <!-- Placeholder do QR Code -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SEU_LINK_AQUI" alt="QR Code"
+              style="width: 200px; height: 200px;">
+          </div>
+          <h3 style="color: #115e59; margin-bottom: 10px;">Acesse o Trabalho</h3>
+          <p style="font-size: 18px;">Escaneie para ver as referências completas.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn14">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn14">
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide 15: Final -->
+  <div class="slide-container qa-layout" id="slide15">
+    <h2>Obrigado!</h2>
+    <p style="font-size: 28px; margin-top: 20px; opacity: 0.9;">Perguntas?</p>
+    <div class="slide-navigation">
+      <button class="nav-button" onclick="previousSlide()" id="prevBtn15">
+        <i class="fa-solid fa-chevron-left"></i> Anterior
+      </button>
+      <button class="nav-button" onclick="nextSlide()" id="nextBtn15" disabled>
+        Próximo <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+</body>
+
+</html>
+<script>
+  let currentSlide = 1;
+  const totalSlides = 15;
+
+  function initSlides() {
+    for (let i = 1; i <= totalSlides; i++) {
+      const slide = document.getElementById(`slide${i}`);
+      if (slide) {
+        slide.style.display = i === 1 ? 'flex' : 'none';
+      }
+    }
+    updateNavigationButtons();
+  }
+
+  function nextSlide() {
+    if (currentSlide < totalSlides) {
+      const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+      const nextSlideElement = document.getElementById(`slide${currentSlide + 1}`);
+
+      if (currentSlideElement && nextSlideElement) {
+        currentSlideElement.style.display = 'none';
+        nextSlideElement.style.display = 'flex';
+        currentSlide++;
+        updateNavigationButtons();
+      }
+    }
+  }
+
+  function previousSlide() {
+    if (currentSlide > 1) {
+      const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+      const prevSlideElement = document.getElementById(`slide${currentSlide - 1}`);
+
+      if (currentSlideElement && prevSlideElement) {
+        currentSlideElement.style.display = 'none';
+        prevSlideElement.style.display = 'flex';
+        currentSlide--;
+        updateNavigationButtons();
+      }
+    }
+  }
+
+  function updateNavigationButtons() {
+    for (let i = 1; i <= totalSlides; i++) {
+      const prevBtn = document.getElementById(`prevBtn${i}`);
+      const nextBtn = document.getElementById(`nextBtn${i}`);
+
+      if (prevBtn) {
+        prevBtn.disabled = currentSlide === 1;
+      }
+      if (nextBtn) {
+        nextBtn.disabled = currentSlide === totalSlides;
+      }
+    }
+  }
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextSlide();
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      previousSlide();
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', initSlides);
+</script>
